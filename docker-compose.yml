@@ -1,0 +1,66 @@
+services:
+    database:
+        command: mysqld --character-set-filesystem=utf8mb4 --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --default-authentication-plugin=mysql_native_password --max_allowed_packet=256M --tls-version=''
+        deploy:
+            resources:
+                limits:
+                    memory: 1G
+                reservations:
+                    memory: 1G
+        environment:
+            - MYSQL_DATABASE=lportal
+            - MYSQL_PASSWORD=password
+            - MYSQL_ROOT_HOST=%
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_USER=dxpcloud
+        healthcheck:
+             interval: 5s
+             retries: 50
+             start_period: 30s
+             test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ppassword"]
+             timeout: 5s
+        image: mysql:8.0
+        ports:
+            - 127.0.0.1:13306:3306
+        volumes:
+            - ./database_import:/docker-entrypoint-initdb.d
+            - mysql_data:/var/lib/mysql
+    liferay-2024.q3:
+        build: ./build/liferay
+        deploy:
+            resources:
+                limits:
+                    memory: 6G
+                reservations:
+                    memory: 6G
+        depends_on:
+            database:
+                condition: service_healthy
+        environment:
+            - LCP_LIFERAY_UPGRADE_ENABLED=${LCP_LIFERAY_UPGRADE_ENABLED:-}
+            - LCP_SECRET_DATABASE_HOST=database
+            - LCP_SECRET_DATABASE_PASSWORD=password
+            - LCP_SECRET_DATABASE_USER=root
+            - LCP_PROJECT_ENVIRONMENT=spinner_modl
+            - LIFERAY_DISABLE_TRIAL_LICENSE=true
+            - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME=org.mariadb.jdbc.Driver
+            - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL=jdbc:mysql://database/lportal?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&passwordCharacterEncoding=UTF-8&permitMysqlScheme&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true
+            - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME=root
+            - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD=password
+            - LIFERAY_JPDA_ENABLED=true
+            - LIFERAY_UPGRADE_ENABLED=false
+            - LIFERAY_USERS_PERIOD_REMINDER_PERIOD_QUERIES_PERIOD_ENABLED=false
+            - LIFERAY_VIRTUAL_PERIOD_HOSTS_PERIOD_VALID_PERIOD_HOSTS=*
+            - LIFERAY_WORKSPACE_ENVIRONMENT=x1e4prd
+            - LOCAL_STACK=true
+            - MODL_CUSTOMER_USERS_PASSWORD=liferaydevsecops
+        extra_hosts:
+            - host.docker.internal:host-gateway
+        hostname: liferay-2024.q3
+        ports:
+            - 127.0.0.1:18080:8080
+        volumes:
+            - liferay_document_library-2024.q3:/opt/liferay/data
+volumes:
+    liferay_document_library-2024.q3:
+    mysql_data:
