@@ -70,6 +70,7 @@ services:
         volumes:
             - liferay_document_library-docker:/opt/liferay/data
             - ./scripts:/mnt/liferay/scripts
+            - ./groovy_script_runner:/opt/liferay/deploy
         networks:
             - liferay-net
 volumes:
