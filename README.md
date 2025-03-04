@@ -20,3 +20,9 @@ docker compose up
 
 9, for stopping containers use the ./stop.sh containerName. It will remove the database with the same name and stop the container:
 ./stop.sh spider
+
+Populate groovy scripts to the container:
+- copy your groovy files to the /scripts folder. The folder is mounted to the containers /mnt/liferay/scripts folder
+
+Load the Groovy script executor:
+- copy the groovy script loader osgi module to the /groovy_script_runner folder. This folder is mounted to the containers /opt/liferay/deploy folder. It will start automatically.
