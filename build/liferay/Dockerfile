@@ -3,7 +3,7 @@ ARG LIFERAY_VERSION
 FROM ${LIFERAY_VERSION}
 
 COPY resources/usr/local/liferay/scripts /usr/local/liferay/scripts
-# COPY resources/license/*.xml /opt/liferay/deploy
+COPY resources/license/*.xml /opt/liferay/deploy
 
 USER root
 RUN apt-get update && apt-get install -y --no-install-recommends mysql-client postgresql-client
