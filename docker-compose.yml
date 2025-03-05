@@ -62,15 +62,17 @@ services:
             - LIFERAY_WORKSPACE_ENVIRONMENT=${LIFERAY_WORKSPACE_ENVIRONMENT}
             - LOCAL_STACK=true
             - MODL_CUSTOMER_USERS_PASSWORD=liferaydevsecops
+            - LIFERAY_COMPANY_PERIOD_SECURITY_PERIOD_STRANGERS_PERIOD_VERIFY=false
         extra_hosts:
             - host.docker.internal:host-gateway
         hostname: liferay-docker
         ports:
-            - 127.0.0.1:18080:8080
+            - 127.0.0.1:${PORT}:8080
         volumes:
             - liferay_document_library-docker:/opt/liferay/data
             - ./scripts:/mnt/liferay/scripts
-            - ./groovy_script_runner:/opt/liferay/deploy
+            - ./build/liferay/resources/license:/opt/liferay/deploy
+            - ./liferay_mount/files/portal_properties:/mnt/liferay/files
         networks:
             - liferay-net
 volumes:
