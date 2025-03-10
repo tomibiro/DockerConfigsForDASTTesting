@@ -71,7 +71,7 @@ services:
         volumes:
             - liferay_document_library-docker:/opt/liferay/data
             - ./scripts:/mnt/liferay/scripts
-            - ./build/liferay/resources/license:/opt/liferay/deploy
+            - ./deploy:/opt/liferay/deploy
             - ./liferay_mount/files/portal_properties:/mnt/liferay/files
         networks:
             - liferay-net
@@ -80,3 +80,4 @@ volumes:
     mysql_data:
 networks:
   liferay-net:
+    external: true

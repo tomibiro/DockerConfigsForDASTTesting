@@ -24,8 +24,9 @@ if [[ $STATUS -eq 0 ]]; then
 	
 DOCKER_COMMAND="docker run -d \
   --name \"$ID_NAME\" \
-  --network env-tiger_liferay-net \
+  --network liferay-net \
   --hostname liferay-docker2 \
+  --label com.docker.compose.project=env-tiger \
   -e LCP_SECRET_DATABASE_HOST=mysql \
   -e LCP_SECRET_DATABASE_PASSWORD=password \
   -e LCP_SECRET_DATABASE_USER=root \
@@ -45,7 +46,7 @@ DOCKER_COMMAND="docker run -d \
   -p 127.0.0.1:${LOCALHOST_PORT}:8080 \
   -v liferay_document_library-docker:/opt/liferay/data \
   -v ./scripts:/mnt/liferay/scripts \
-  $IMAGE_NAME"
+  $LIFERAY_VERSION"
 
 eval "$DOCKER_COMMAND"
 
