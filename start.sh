@@ -9,6 +9,14 @@ ID_NAME=$2
 LOCALHOST_PORT=$3
 IMAGE_NAME=$(echo "$LIFERAY_VERSION" | tr -d ":")
 
+if [[ $STATUS -eq 1 ]]; then
+    docker start mysql
+	sleep 5
+fi
+
+./mysql_check.sh
+STATUS=$?
+
 if [[ $STATUS -eq 0 ]]; then
     echo "✅ Mysql connection is established."
 	echo "Start a new database: $ID_NAME" 
@@ -43,8 +51,6 @@ eval "$DOCKER_COMMAND"
 
 echo "Liferay container '${ID_NAME}' added and started successfully."
 	
-elif [[ $STATUS -eq 1 ]]; then
-    exit 1
 elif [[ $STATUS -eq 2 ]]; then
     echo "⚠ MySQL has not started yet. Wait for 5 sec and restart..."
     exit 99
