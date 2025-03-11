@@ -1,4 +1,14 @@
 services:
+    prometheus:
+        image: prom/prometheus
+        container_name: prometheus
+        ports:
+            - 9090:9090
+        restart: unless-stopped
+        volumes:
+            - ./tmp/prometheus.yml:/etc/prometheus/prometheus.yml
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
     mysql:
         container_name: mysql
         command: mysqld --character-set-filesystem=utf8mb4 --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --default-authentication-plugin=mysql_native_password --max_allowed_packet=256M --tls-version=''

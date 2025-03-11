@@ -1,3 +1,5 @@
+Usage:
+
 1, clone this git repository with 'git clone' to your local computer or to the server
 
 2, install and start the Docker Desktop (it contains the Docker CLI)
@@ -26,3 +28,8 @@ Populate groovy scripts to the container:
 
 Load the Groovy script executor:
 - copy the groovy script loader osgi module to the /groovy_script_runner folder. This folder is mounted to the containers /opt/liferay/deploy folder. It will start automatically.
+
+Usage of Prometheus:
+- The docker-compose.yml file contains the Prometheus container that starts automatically.
+- It can be used for monitoring the containers' health.
+- Use according to the following url: https://docs.docker.com/engine/daemon/prometheus/#open-the-prometheus-dashboard
