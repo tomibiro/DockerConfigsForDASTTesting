@@ -77,7 +77,7 @@ services:
             - host.docker.internal:host-gateway
         hostname: liferay-docker
         ports:
-            - 127.0.0.1:${PORT}:8080
+            - ${PORT}:8080
         volumes:
             - liferay_document_library-docker:/opt/liferay/data
             - ./scripts:/mnt/liferay/scripts
