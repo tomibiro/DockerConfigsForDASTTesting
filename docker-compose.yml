@@ -60,7 +60,7 @@ services:
             - LCP_SECRET_DATABASE_PASSWORD=password
             - LCP_SECRET_DATABASE_USER=root
             - LCP_PROJECT_ENVIRONMENT=spinner_modl
-            - LIFERAY_DISABLE_TRIAL_LICENSE=false
+            - LIFERAY_DISABLE_TRIAL_LICENSE=true
             - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME=org.mariadb.jdbc.Driver
             -                                                                    LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL=jdbc:mysql://mysql/${MYSQL_DATABASE_TABLE_NAME}?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&passwordCharacterEncoding=UTF-8&permitMysqlScheme&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true
             - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME=${MYSQL_USERNAME}

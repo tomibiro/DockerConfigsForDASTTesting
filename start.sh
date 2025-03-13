@@ -31,7 +31,7 @@ DOCKER_COMMAND="docker run -d \
   -e LCP_SECRET_DATABASE_PASSWORD=password \
   -e LCP_SECRET_DATABASE_USER=root \
   -e LCP_PROJECT_ENVIRONMENT=spinner_modl \
-  -e LIFERAY_DISABLE_TRIAL_LICENSE=false \
+  -e LIFERAY_DISABLE_TRIAL_LICENSE=true \
   -e LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME=org.mariadb.jdbc.Driver \
   -e LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL=\"jdbc:mysql://mysql/${ID_NAME}?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&passwordCharacterEncoding=UTF-8&permitMysqlScheme&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true\" \
   -e LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME=root \
@@ -46,9 +46,14 @@ DOCKER_COMMAND="docker run -d \
   -p 127.0.0.1:${LOCALHOST_PORT}:8080 \
   -v liferay_document_library-docker:/opt/liferay/data \
   -v ./scripts:/mnt/liferay/scripts \
+  -v ./deploy:/opt/liferay/deploy \
+  -v ./liferay_mount/files/portal_properties:/mnt/liferay/files \
   $LIFERAY_VERSION"
 
 eval "$DOCKER_COMMAND"
+
+docker cp ./build/liferay/resources/license/. ${ID_NAME}:/opt/liferay/deploy && docker exec ${ID_NAME} chmod 777 /opt/liferay/deploy/*.xml
+docker cp ./build/liferay/resources/license/. ${ID_NAME}:/opt/liferay/data/license && docker exec ${ID_NAME} chmod 777 /opt/liferay/deploy/*.xml
 
 echo "Liferay container '${ID_NAME}' added and started successfully."
 	
